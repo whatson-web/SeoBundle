@@ -1,0 +1,12 @@
+title: 'Créer une redirection'
+
+formFields:
+    - urlToRedirect
+    - redirectionUrl
+    - redirectionType
+
+footerFormFields:
+    create:
+        label: 'Créer'
+        field: 'create'
+        color: 'success'

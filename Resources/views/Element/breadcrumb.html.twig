@@ -1,0 +1,39 @@
+{% set breadcrumbMicroData = [] %}
+
+<ol class="breadcrumb">
+    {% for label, url in breadcrumb %}
+        {% if loop.last %}
+            <li>
+                <span>{{ label }}</span>
+            </li>
+        {% else %}
+            <li>
+                <a href="{{ url }}">{{ label }}</a>
+            </li>
+        {% endif %}
+    {% endfor %}
+</ol>
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {% for label, url in breadcrumb %}
+    {{ '{' | raw }}
+    {{ '"@type" : "ListItem",' | raw }}
+    {{ ('"position" : ' ~ (loop.index + 1) ~ ',') | raw }}
+    {{ '"item" : {' | raw }}
+    {{ ('"@id" : "' ~ url ~ '",') | raw }}
+    {{ ('"name" : "' ~ label ~ '"') | raw }}
+    {{ '}' | raw }}
+    {% if loop.last %}
+        {{ '}' | raw }}
+    {% else %}
+        {{ '},' | raw }}
+    {% endif %}
+    {% endfor %}
+  ]
+}
+
+</script>

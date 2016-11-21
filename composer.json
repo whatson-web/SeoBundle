@@ -1,0 +1,16 @@
+{
+  "name": "whatson-web/seo-bundle",
+  "type": "symfony-bundle",
+  "description": "Symfony - Whatson Web - SeoBundle",
+  "homepage": "https://github.com/whatson-web/SeoBundle",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Whatson Web - Developers",
+      "email": "dev@whatson-web.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.9"
+  }
+}

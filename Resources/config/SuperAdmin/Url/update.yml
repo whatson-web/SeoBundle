@@ -1,0 +1,14 @@
+modal: 'true'
+
+title: 'Editer une redirection'
+
+formFields:
+    - entityClass
+    - entityId
+    - url
+
+footerFormFields:
+    save:
+        label: 'Enregistrer'
+        field: 'save'
+        color: 'success'

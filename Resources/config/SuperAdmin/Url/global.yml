@@ -1,0 +1,39 @@
+actions:
+    index:
+        route: 'sudo_wh_seo_url_index'
+    update:
+        route: 'sudo_wh_seo_url_update'
+        parameters:
+            id: 'id'
+    delete:
+        route: 'sudo_wh_seo_url_delete'
+        parameters:
+            id: 'id'
+
+formFields:
+    id:
+        label: 'ID'
+        field: 'id'
+        type: 'text'
+    entityClass:
+        label: "Classe de l'entité"
+        field: 'entityClass'
+        type: 'text'
+        disabled: 'true'
+    entityId:
+        label: "ID de l'entité"
+        field: 'entityId'
+        type: 'text'
+        disabled: 'true'
+    url:
+        label: 'Url'
+        field: 'url'
+        type: 'text'
+    hasBeenRewrited:
+        label: 'Url réécrite manuellement ?'
+        field: 'hasBeenRewrited'
+        type: 'boolean'
+
+menus:
+    main: 'super-admin-menu'
+    right: 'super-admin-menu-right'

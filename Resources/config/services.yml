@@ -1,0 +1,10 @@
+services:
+    wh_seo.url_generator:
+        class: WH\SeoBundle\Services\UrlGenerator
+        arguments: ["@service_container"]
+
+    wh_seo.seo_listener:
+        class: WH\SeoBundle\Listener\SeoListener
+        arguments: ["@service_container"]
+        tags:
+            - { name: doctrine.event_subscriber }

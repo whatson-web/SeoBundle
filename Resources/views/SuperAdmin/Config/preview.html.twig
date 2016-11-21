@@ -1,0 +1,89 @@
+{% extends '@WHBackendTemplate/BackendTemplate/Layout/layout.html.twig' %}
+
+{% block title %}<h1>{{ title }}</h1>{% endblock %}
+
+{% block breadcrumb %}
+    {% include '@WHBackendTemplate/BackendTemplate/Element/breadcrumb.html.twig' with {'breadcrumb': breadcrumb} %}
+{% endblock %}
+
+{% block body %}
+
+    <div class="wh-panel panel panel-default">
+
+        <div class="panel-heading">
+
+            <table>
+                <tr>
+                    <td>
+                        <span>Règle(s) de fabrication des urls</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="panel-body">
+
+            <table class="wh-table table table-striped">
+
+                <tbody>
+                {% for entityClass,configEntity in configEntities %}
+                    <tr>
+                        <td>{{ entityClass }}</td>
+                        <td>{% for urlField in configEntity.urlFields %}{% spaceless %}
+                                {% if urlField.type == 'string' %}
+                                    {{ urlField.string }}
+                                {% elseif urlField.type == 'field' %}
+                                    {{ '{' ~ urlField.field ~ '}' }}
+                                {% endif %}
+                            {% endspaceless %}{% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <div class="wh-panel panel panel-default">
+
+        <div class="panel-heading">
+
+            <table>
+                <tr>
+                    <td>
+                        <span>Champs par défaut pour les metas</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="panel-body">
+
+            <table class="wh-table table table-striped">
+
+                <tbody>
+                {% for entityClass,configEntity in configEntities %}
+
+                    {% if configEntity.defaultMetasFields is defined %}
+                        <tr>
+                            <td>{{ entityClass }}</td>
+                            <td>{% for metaField, entityField in configEntity.defaultMetasFields %}{% spaceless %}
+                                    <strong>{{ metaField ~ ' : ' }}</strong>{{ entityField }}<br>
+                                {% endspaceless %}{% endfor %}
+                            </td>
+                        </tr>
+                    {% endif %}
+
+                {% endfor %}
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+{% endblock %}

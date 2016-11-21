@@ -1,0 +1,64 @@
+title: 'Liste des redirections'
+
+search: 'true'
+
+formPanelProperties:
+    headerLabel: 'Filtrer les redirections'
+    formFields:
+        urlToRedirect:
+            label: 'Url à rediriger'
+            field: 'urlToRedirect'
+            type: 'text'
+            conditionType: 'like'
+            col: '4'
+        redirectionUrl:
+            label: 'Url de redirection'
+            field: 'redirectionUrl'
+            type: 'text'
+            conditionType: 'like'
+            col: '4'
+        redirectionType:
+            label: 'Type'
+            field: 'redirectionType'
+            type: 'text'
+            col: '4'
+    footerListButtons:
+        submit:
+            buttonType: 'button'
+            label: 'Filtrer'
+
+breadcrumb:
+    index:
+        label: 'Liste des redirections'
+        action: 'index'
+
+tablePanelProperties:
+
+    headerLabel: 'Liste des redirections'
+    headerListButtons:
+        create:
+            buttonType: 'link'
+            color: 'success'
+            label: 'Ajouter une redirection'
+            action: 'create'
+            modal: 'true'
+            size: 'xs'
+
+    tableFields:
+        buttons:
+            multipleFields:
+            update:
+                icon: 'pencil'
+                modal: 'true'
+                action: 'update'
+            delete:
+                icon: 'trash'
+                color: 'danger'
+                action: 'delete'
+                confirm: 'Êtes-vous sûr de vouloir supprimer cette redirection ?'
+        id:
+        urlToRedirect:
+            type: 'link'
+        redirectionUrl:
+            type: 'link'
+        redirectionType:

@@ -1,0 +1,51 @@
+title: 'Liste des urls'
+
+search: 'true'
+
+formPanelProperties:
+    headerLabel: 'Filtrer les urls'
+    formFields:
+        entityClass:
+            label: "Classe de l'entité"
+            field: 'entityClass'
+            type: 'text'
+            conditionType: 'like'
+            col: '4'
+        entityId:
+            label: "ID de l'entité"
+            field: 'entityId'
+            type: 'text'
+            col: '4'
+        url:
+            label: 'Url'
+            field: 'url'
+            type: 'text'
+            conditionType: 'like'
+            col: '4'
+    footerListButtons:
+        submit:
+            buttonType: 'button'
+            label: 'Filtrer'
+
+breadcrumb:
+    index:
+        label: 'Liste des urls'
+        action: 'index'
+
+tablePanelProperties:
+
+    headerLabel: 'Liste des urls'
+
+    tableFields:
+        buttons:
+            multipleFields:
+            update:
+                icon: 'pencil'
+                modal: 'true'
+                action: 'update'
+        id:
+        entityClass:
+        entityId:
+        url:
+            type: 'link'
+        hasBeenRewrited:

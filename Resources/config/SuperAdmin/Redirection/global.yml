@@ -1,0 +1,35 @@
+actions:
+    index:
+        route: 'sudo_wh_seo_redirection_index'
+    create:
+        route: 'sudo_wh_seo_redirection_create'
+    update:
+        route: 'sudo_wh_seo_redirection_update'
+        parameters:
+            id: 'id'
+    delete:
+        route: 'sudo_wh_seo_redirection_delete'
+        parameters:
+            id: 'id'
+
+formFields:
+    id:
+        label: 'ID'
+        field: 'id'
+        type: 'text'
+    urlToRedirect:
+        label: 'Url à rediriger'
+        field: 'urlToRedirect'
+        type: 'text'
+    redirectionUrl:
+        label: 'Url de redirection'
+        field: 'redirectionUrl'
+        type: 'text'
+    redirectionType:
+        label: 'Type'
+        field: 'redirectionType'
+        type: 'text'
+
+menus:
+    main: 'super-admin-menu'
+    right: 'super-admin-menu-right'
