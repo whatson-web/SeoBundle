@@ -1,14 +1,14 @@
 {% set breadcrumbMicroData = [] %}
 
 <ol class="breadcrumb">
-    {% for label, url in breadcrumb %}
+    {% for crumb in breadcrumb %}
         {% if loop.last %}
             <li>
-                <span>{{ label }}</span>
+                <span>{{ crumb.label }}</span>
             </li>
         {% else %}
             <li>
-                <a href="{{ url }}">{{ label }}</a>
+                <a href="{{ crumb.url }}">{{ crumb.label }}</a>
             </li>
         {% endif %}
     {% endfor %}
@@ -19,13 +19,13 @@
   "@context": "http://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
-    {% for label, url in breadcrumb %}
+    {% for crumb in breadcrumb %}
     {{ '{' | raw }}
     {{ '"@type" : "ListItem",' | raw }}
     {{ ('"position" : ' ~ (loop.index + 1) ~ ',') | raw }}
     {{ '"item" : {' | raw }}
-    {{ ('"@id" : "' ~ url ~ '",') | raw }}
-    {{ ('"name" : "' ~ label ~ '"') | raw }}
+    {{ ('"@id" : "' ~ crumb.url ~ '",') | raw }}
+    {{ ('"name" : "' ~ crumb.label ~ '"') | raw }}
     {{ '}' | raw }}
     {% if loop.last %}
         {{ '}' | raw }}
