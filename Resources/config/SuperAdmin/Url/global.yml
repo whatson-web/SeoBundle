@@ -35,5 +35,5 @@ formFields:
         type: 'boolean'
 
 menus:
-    main: 'super-admin-menu'
-    right: 'super-admin-menu-right'
+    main: 'superAdminMenu'
+    right: 'superAdminMenuRight'

@@ -3,5 +3,5 @@ actions:
         route: 'sudo_wh_seo_url_index'
 
 menus:
-    main: 'super-admin-menu'
-    right: 'super-admin-menu-right'
+    main: 'superAdminMenu'
+    right: 'superAdminMenuRight'
