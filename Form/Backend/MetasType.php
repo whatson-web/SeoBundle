@@ -27,7 +27,7 @@ class MetasType extends AbstractType
 				'title',
 				TextType::class,
 				array(
-					'label'    => 'Balise title :',
+					'label'    => 'Meta title :',
 					'required' => false,
 					'attr'     => array(
 						'class' => 'wh-count-chars',
@@ -54,10 +54,10 @@ class MetasType extends AbstractType
 					'empty_data'  => 'index,follow',
 					'required'    => false,
 					'choices'     => array(
-						'index,follow'     => 'Indexer l\'url et suivre les liens (index,follow)',
-						'index,nofollow'   => 'Indexer l\'url et ne pas suivre les liens (index,nofollow)',
-						'noindex,follow'   => 'Ne pas indexer l\'url et suivre les liens (noindex,follow)',
-						'noindex,nofollow' => 'Ne pas indexer l\'url et ne pas suivre les liens (noindex,nofollow)',
+						'index,follow'     => 'index,follow',
+						'index,nofollow'   => 'index,nofollow',
+						'noindex,follow'   => 'noindex,follow',
+						'noindex,nofollow' => 'noindex,nofollow',
 					),
 				)
 			);
