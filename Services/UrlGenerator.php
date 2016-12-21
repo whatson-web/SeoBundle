@@ -101,7 +101,7 @@ class UrlGenerator
 
 						// Todo : gérer nombre de niveaux maxs, début/fin (avec une regex)
 						if ($fieldUrl && $fieldUrl->getUrl() != '/') {
-							$newUrl .= $fieldUrl->getUrl() . '/';
+							$newUrl = $fieldUrl->getUrl();
 						}
 					}
 
