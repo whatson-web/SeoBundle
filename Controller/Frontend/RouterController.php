@@ -69,8 +69,7 @@ class RouterController extends BaseController
 			$entityBundle = '';
 			if (preg_match('#(.*)\\\(.*)\\\Entity\\\.*#', $entityClass)) {
 				$entityBundle = preg_replace('#(.*)\\\(.*)\\\Entity\\\.*#', '$1$2', $entityClass);
-			}
-			if (preg_match('#(.*)\\\Entity\\\.*#', $entityClass)) {
+			} elseif (preg_match('#(.*)\\\Entity\\\.*#', $entityClass)) {
 				$entityBundle = preg_replace('#(.*)\\\Entity\\\.*#', '$1', $entityClass);
 			}
 
