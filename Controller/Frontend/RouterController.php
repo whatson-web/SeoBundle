@@ -66,7 +66,14 @@ class RouterController extends BaseController
 		if ($url) {
 			$entityClass = $url->getEntityClass();
 
-			$entityBundle = preg_replace('#(.*)\\\(.*)\\\Entity\\\.*#', '$1$2', $entityClass);
+			$entityBundle = '';
+			if (preg_match('#(.*)\\\(.*)\\\Entity\\\.*#', $entityClass)) {
+				$entityBundle = preg_replace('#(.*)\\\(.*)\\\Entity\\\.*#', '$1$2', $entityClass);
+			}
+			if (preg_match('#(.*)\\\Entity\\\.*#', $entityClass)) {
+				$entityBundle = preg_replace('#(.*)\\\Entity\\\.*#', '$1', $entityClass);
+			}
+
 			$entityName = preg_replace('#.*\\\Entity\\\(.*)#', '$1', $entityClass);
 
 			$entityAction = $entityBundle . ':Frontend/' . $entityName . ':view';
