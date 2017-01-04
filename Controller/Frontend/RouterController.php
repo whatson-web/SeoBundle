@@ -17,7 +17,7 @@ class RouterController extends BaseController
 {
 
 	/**
-	 * @Route("{url}", name="ft_wh_seo_router_dispatch", requirements={"url":".+"})
+	 * @Route("{url}", name="ft_wh_seo_router_dispatch", requirements={"url":".*"})
 	 *
 	 * @param string  $url
 	 * @param Request $request
@@ -26,6 +26,10 @@ class RouterController extends BaseController
 	 */
 	public function dispatchAction($url = '/', Request $request)
 	{
+		if ($url == '') {
+			$url = '/';
+		}
+
 		$em = $this->get('doctrine')->getManager();
 
 		$redirection = $em->getRepository('WHSeoBundle:Redirection')->get(
