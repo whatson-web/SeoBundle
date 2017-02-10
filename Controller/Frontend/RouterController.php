@@ -16,100 +16,113 @@ use WH\BackendBundle\Controller\Backend\BaseController;
 class RouterController extends BaseController
 {
 
-	/**
-	 * @Route("{url}", name="ft_wh_seo_router_dispatch", requirements={"url":".*"})
-	 *
-	 * @param string  $url
-	 * @param Request $request
-	 *
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-	 */
-	public function dispatchAction($url = '/', Request $request)
-	{
-		if ($url == '') {
-			$url = '/';
-		}
+    /**
+     * @Route("{url}", name="ft_wh_seo_router_dispatch", requirements={"url":".*"})
+     *
+     * @param string  $url
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function dispatchAction($url = '/', Request $request)
+    {
+        if ($url == '') {
+            $url = '/';
+        }
 
-		$em = $this->get('doctrine')->getManager();
+        $em = $this->get('doctrine')->getManager();
 
-		$redirection = $em->getRepository('WHSeoBundle:Redirection')->get(
-			'one',
-			array(
-				'conditions' => array(
-					'redirection.urlToRedirect' => $url,
-				),
-			)
-		);
-		if ($redirection) {
+        $redirection = $em->getRepository('WHSeoBundle:Redirection')->get(
+            'one',
+            array(
+                'conditions' => array(
+                    'redirection.urlToRedirect' => $url,
+                ),
+            )
+        );
+        if ($redirection) {
 
-			if ($redirection->getRedirectionType() == 410) {
-				$response = new Response();
-				$response->headers->set('Content-Type', 'text/html');
-				$response->setStatusCode(410);
+            if ($redirection->getRedirectionType() == 410) {
+                $response = new Response();
+                $response->headers->set('Content-Type', 'text/html');
+                $response->setStatusCode(410);
 
-				return $response;
-			}
+                return $response;
+            }
 
-			return $this->redirectToRoute(
-				'ft_wh_seo_router_dispatch',
-				array(
-					'url' => $redirection->getRedirectionUrl(),
-				),
-				$redirection->getRedirectionType()
-			);
-		}
+            return $this->redirectToRoute(
+                'ft_wh_seo_router_dispatch',
+                array(
+                    'url' => $redirection->getRedirectionUrl(),
+                ),
+                $redirection->getRedirectionType()
+            );
+        }
 
-		$url = $em->getRepository('WHSeoBundle:Url')->get(
-			'one',
-			array(
-				'conditions' => array(
-					'url.url' => $url,
-				),
-			)
-		);
-		if ($url) {
-			$entityClass = $url->getEntityClass();
+        $url = $em->getRepository('WHSeoBundle:Url')->get(
+            'one',
+            array(
+                'conditions' => array(
+                    'url.url' => $url,
+                ),
+            )
+        );
+        if ($url) {
+            $entityClass = $url->getEntityClass();
 
-			$entityBundle = '';
-			if (preg_match('#(.*)\\\(.*)\\\Entity\\\.*#', $entityClass)) {
-				$entityBundle = preg_replace('#(.*)\\\(.*)\\\Entity\\\.*#', '$1$2', $entityClass);
-			} elseif (preg_match('#(.*)\\\Entity\\\.*#', $entityClass)) {
-				$entityBundle = preg_replace('#(.*)\\\Entity\\\.*#', '$1', $entityClass);
-			}
+            $entities = $this->getParameter('wh_seo_entities');
 
-			$entityName = preg_replace('#.*\\\Entity\\\(.*)#', '$1', $entityClass);
+            if (!empty($entities[$entityClass]['frontController'])) {
+                $response = $this->forward(
+                    $entities[$entityClass]['frontController'],
+                    array(
+                        'id'      => $url->getEntityId(),
+                        'request' => $request,
+                    )
+                );
+            } else {
+                $entityBundle = '';
 
-			$entityAction = $entityBundle . ':Frontend/' . $entityName . ':view';
+                if (preg_match('#(.*)\\\(.*)\\\Entity\\\.*#', $entityClass)) {
+                    $entityBundle = preg_replace('#(.*)\\\(.*)\\\Entity\\\.*#', '$1$2', $entityClass);
+                } elseif (preg_match('#(.*)\\\Entity\\\.*#', $entityClass)) {
+                    $entityBundle = preg_replace('#(.*)\\\Entity\\\.*#', '$1', $entityClass);
+                }
 
-			$response = $this->forward(
-				$entityAction,
-				array(
-					'id'      => $url->getEntityId(),
-					'request' => $request,
-				)
-			);
+                $entityName = preg_replace('#.*\\\Entity\\\(.*)#', '$1', $entityClass);
 
-			return $response;
-		}
+                $entityAction = $entityBundle . ':Frontend/' . $entityName . ':view';
 
-		throw new NotFoundHttpException('Cette page n\'existe pas ou plus');
-	}
+                $response = $this->forward(
+                    $entityAction,
+                    array(
+                        'id'      => $url->getEntityId(),
+                        'request' => $request,
+                    )
+                );
+            }
 
-	/**
-	 * @param $entity
-	 *
-	 * @return Response
-	 */
-	public function metasAction($entity)
-	{
-		$metas = $this->get('wh_seo.url_generator')->getMetas($entity);
+            return $response;
+        }
 
-		return $this->render(
-			'WHSeoBundle:FrontEnd/Router:metas.html.twig',
-			array(
-				'metas' => $metas,
-			)
-		);
-	}
+        throw new NotFoundHttpException('Cette page n\'existe pas ou plus');
+    }
+
+    /**
+     * @param $entity
+     *
+     * @return Response
+     */
+    public function metasAction($entity)
+    {
+        $metas = $this->get('wh_seo.url_generator')->getMetas($entity);
+
+        return $this->render(
+            'WHSeoBundle:FrontEnd/Router:metas.html.twig',
+            array(
+                'metas' => $metas,
+            )
+        );
+    }
 
 }
