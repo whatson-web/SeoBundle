@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Metas
  *
  * @ORM\Table(name="metas")
- * @ORM\Entity(repositoryClass="WH\SeoBundle\Repository\MetasRepository")
+ * @ORM\Entity()
  */
 class Metas
 {
