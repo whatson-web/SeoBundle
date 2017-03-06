@@ -4,12 +4,7 @@
 
 # Visualisation stratégies SEO + bouton reload url ?
 
-# UrlListener
-- Delete redirection si re-création
-- Détection boucle de redirection
-
-# Redirection
-- import
+# Import des redirections
 
 # Metas
 - preview de Google
