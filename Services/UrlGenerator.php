@@ -113,7 +113,7 @@ class UrlGenerator
             }
         }
 
-        if ($entityClass == 'WH\CmsBundle\Entity\Page' && $entity->getPageTemplateSlug() == 'home') {
+        if ($entityClass == 'CmsBundle\Entity\Page' && $entity->getPageTemplateSlug() == 'home') {
             $newUrl = '/';
         }
 
