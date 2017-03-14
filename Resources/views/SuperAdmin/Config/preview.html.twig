@@ -1,6 +1,6 @@
 {% extends '@WHBackendTemplate/BackendTemplate/Layout/layout.html.twig' %}
 
-{% block title %}<h1>{{ title }}</h1>{% endblock %}
+{% block title %}<h2>{{ title }}</h2>{% endblock %}
 
 {% block breadcrumb %}
     {% include '@WHBackendTemplate/BackendTemplate/Element/breadcrumb.html.twig' with {'breadcrumb': breadcrumb} %}
@@ -8,20 +8,20 @@
 
 {% block body %}
 
-    <div class="wh-panel panel panel-default">
+    <div class="card">
 
-        <div class="panel-heading">
+        <div class="card-header">
 
             <table>
                 <tr>
                     <td>
-                        <span>Règle(s) de fabrication des urls</span>
+                        <h2>Règle(s) de fabrication des urls</h2>
                     </td>
                 </tr>
             </table>
         </div>
 
-        <div class="panel-body">
+        <div class="card-body">
 
             <table class="wh-table table table-striped">
 
@@ -47,20 +47,20 @@
 
     </div>
 
-    <div class="wh-panel panel panel-default">
+    <div class="card">
 
-        <div class="panel-heading">
+        <div class="card-header">
 
             <table>
                 <tr>
                     <td>
-                        <span>Champs par défaut pour les metas</span>
+                        <h2>Champs par défaut pour les metas</h2>
                     </td>
                 </tr>
             </table>
         </div>
 
-        <div class="panel-body">
+        <div class="cardody">
 
             <table class="wh-table table table-striped">
 
