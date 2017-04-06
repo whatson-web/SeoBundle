@@ -26,8 +26,16 @@ class RouterController extends BaseController
      */
     public function dispatchAction($url = '/', Request $request)
     {
-        if ($url == '') {
-            $url = '/';
+        if ($url == '/') {
+            return $this->redirect(
+                $this->generateUrl(
+                    'ft_wh_seo_router_dispatch',
+                    array(
+                        'url' => '',
+                    )
+                ),
+                301
+            );
         }
 
         $em = $this->get('doctrine')->getManager();
@@ -40,8 +48,8 @@ class RouterController extends BaseController
                 ),
             )
         );
+        
         if ($redirection) {
-
             if ($redirection->getRedirectionType() == 410) {
                 $response = new Response();
                 $response->headers->set('Content-Type', 'text/html');

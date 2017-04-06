@@ -114,7 +114,7 @@ class UrlGenerator
         }
 
         if ($entityClass == 'CmsBundle\Entity\Page' && $entity->getPageTemplateSlug() == 'home') {
-            $newUrl = '/';
+            $newUrl = '';
         }
 
         $currentUrl = $entity->getUrl();
