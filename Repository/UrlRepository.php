@@ -11,12 +11,5 @@ use WH\LibBundle\Repository\BaseRepository;
  */
 class UrlRepository extends BaseRepository
 {
-
-    /**
-     * @return string
-     */
-    public function getEntityNameQueryBuilder()
-    {
-        return 'url';
-    }
+    public $entityName = 'url';
 }

@@ -30,9 +30,9 @@ class RouterController extends BaseController
             return $this->redirect(
                 $this->generateUrl(
                     'ft_wh_seo_router_dispatch',
-                    array(
+                    [
                         'url' => '',
-                    )
+                    ]
                 ),
                 301
             );
@@ -42,13 +42,13 @@ class RouterController extends BaseController
 
         $redirection = $em->getRepository('WHSeoBundle:Redirection')->get(
             'one',
-            array(
-                'conditions' => array(
+            [
+                'conditions' => [
                     'redirection.urlToRedirect' => $url,
-                ),
-            )
+                ],
+            ]
         );
-        
+
         if ($redirection) {
             if ($redirection->getRedirectionType() == 410) {
                 $response = new Response();
@@ -60,20 +60,20 @@ class RouterController extends BaseController
 
             return $this->redirectToRoute(
                 'ft_wh_seo_router_dispatch',
-                array(
+                [
                     'url' => $redirection->getRedirectionUrl(),
-                ),
+                ],
                 $redirection->getRedirectionType()
             );
         }
 
         $url = $em->getRepository('WHSeoBundle:Url')->get(
             'one',
-            array(
-                'conditions' => array(
+            [
+                'conditions' => [
                     'url.url' => $url,
-                ),
-            )
+                ],
+            ]
         );
         if ($url) {
             $entityClass = $url->getEntityClass();
@@ -83,10 +83,10 @@ class RouterController extends BaseController
             if (!empty($entities[$entityClass]['frontController'])) {
                 $response = $this->forward(
                     $entities[$entityClass]['frontController'],
-                    array(
+                    [
                         'id'      => $url->getEntityId(),
                         'request' => $request,
-                    )
+                    ]
                 );
             } else {
                 $entityBundle = '';
@@ -103,10 +103,10 @@ class RouterController extends BaseController
 
                 $response = $this->forward(
                     $entityAction,
-                    array(
+                    [
                         'id'      => $url->getEntityId(),
                         'request' => $request,
-                    )
+                    ]
                 );
             }
 
@@ -127,9 +127,9 @@ class RouterController extends BaseController
 
         return $this->render(
             'WHSeoBundle:FrontEnd/Router:metas.html.twig',
-            array(
+            [
                 'metas' => $metas,
-            )
+            ]
         );
     }
 

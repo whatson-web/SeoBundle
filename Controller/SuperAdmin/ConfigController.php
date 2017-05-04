@@ -15,41 +15,41 @@ use WH\BackendBundle\Controller\Backend\BaseController;
 class ConfigController extends BaseController
 {
 
-	public $bundlePrefix = 'WH';
-	public $bundle = 'SeoBundle';
-	public $entity = 'Config';
-	public $type = 'SuperAdmin';
+    public $bundlePrefix = 'WH';
+    public $bundle = 'SeoBundle';
+    public $entity = 'Config';
+    public $type = 'SuperAdmin';
 
-	/**
-	 * @Route("/preview/", name="sudo_wh_seo_config_preview")
-	 *
-	 * @return string
-	 */
-	public function previewAction()
-	{
-		$renderVars = array();
+    /**
+     * @Route("/preview/", name="sudo_wh_seo_config_preview")
+     *
+     * @return string
+     */
+    public function previewAction()
+    {
+        $renderVars = [];
 
-		$entityPathConfig = $this->getEntityPathConfig();
+        $entityPathConfig = $this->getEntityPathConfig();
 
-		$config = $this->getConfig($entityPathConfig, 'preview');
+        $config = $this->getConfig($entityPathConfig, 'preview');
 
-		$globalConfig = $this->getGlobalConfig($entityPathConfig);
-		$renderVars['globalConfig'] = $globalConfig;
+        $globalConfig = $this->getGlobalConfig($entityPathConfig);
+        $renderVars['globalConfig'] = $globalConfig;
 
-		$renderVars['title'] = $config['title'];
+        $renderVars['title'] = $config['title'];
 
-		$renderVars['breadcrumb'] = $this->getBreadcrumb(
-			$config['breadcrumb'],
-			$entityPathConfig
-		);
+        $renderVars['breadcrumb'] = $this->getBreadcrumb(
+            $config['breadcrumb'],
+            $entityPathConfig
+        );
 
-		$configEntities = $this->getParameter('wh_seo_entities');
-		$renderVars['configEntities'] = $configEntities;
+        $configEntities = $this->getParameter('wh_seo_entities');
+        $renderVars['configEntities'] = $configEntities;
 
-		return $this->render(
-			'WHSeoBundle:SuperAdmin/Config:preview.html.twig',
-			$renderVars
-		);
-	}
+        return $this->render(
+            'WHSeoBundle:SuperAdmin/Config:preview.html.twig',
+            $renderVars
+        );
+    }
 
 }

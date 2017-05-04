@@ -28,12 +28,15 @@
     {{ ('"name" : "' ~ crumb.label ~ '"') | raw }}
     {{ '}' | raw }}
     {% if loop.last %}
-        {{ '}' | raw }}
-    {% else %}
-        {{ '},' | raw }}
+    {{ '}' | raw }}
+{% else %}
+{{ '},' | raw }}
     {% endif %}
     {% endfor %}
   ]
 }
+
+
+
 
 </script>

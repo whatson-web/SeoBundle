@@ -41,7 +41,7 @@ class UrlGenerator
 
         $managedEntities = $this->container->getParameter('wh_seo_entities');
 
-        $urlFields = array();
+        $urlFields = [];
 
         if (key_exists($entityClass, $managedEntities)) {
             $managedEntity = $managedEntities[$entityClass];
@@ -91,12 +91,12 @@ class UrlGenerator
 
                         $fieldUrl = $urlRepository->get(
                             'one',
-                            array(
-                                'conditions' => array(
+                            [
+                                'conditions' => [
                                     'url.entityClass' => $urlField['entity'],
                                     'url.entityId'    => $fieldValue->getId(),
-                                ),
-                            )
+                                ],
+                            ]
                         );
 
                         // Todo : gérer nombre de niveaux maxs, début/fin (avec une regex)
@@ -152,11 +152,11 @@ class UrlGenerator
             // Suppression des redirections déjà existantes pour l'url qui va être créée
             $existingRedirections = $this->em->getRepository('WHSeoBundle:Redirection')->get(
                 'all',
-                array(
-                    'conditions' => array(
+                [
+                    'conditions' => [
                         'redirection.urlToRedirect' => $newUrl,
-                    ),
-                )
+                    ],
+                ]
             );
             foreach ($existingRedirections as $existingRedirection) {
                 $this->em->remove($existingRedirection);
@@ -203,13 +203,13 @@ class UrlGenerator
 
         $managedEntities = $this->container->getParameter('wh_seo_entities');
 
-        $metas = array(
+        $metas = [
             'title'       => '',
             'description' => '',
             'robots'      => 'index,follow',
-        );
+        ];
 
-        $defaultMetasFields = array();
+        $defaultMetasFields = [];
         if (key_exists($entityClass, $managedEntities)) {
             $managedEntity = $managedEntities[$entityClass];
             if (isset($managedEntity['defaultMetasFields'])) {

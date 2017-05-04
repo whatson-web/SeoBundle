@@ -14,134 +14,134 @@ use WH\LibBundle\Entity\LogDate;
 class Url
 {
 
-	/**
-	 * Url constructor.
-	 */
-	public function __construct()
-	{
-		$this->hasBeenRewrited = false;
-	}
+    /**
+     * Url constructor.
+     */
+    public function __construct()
+    {
+        $this->hasBeenRewrited = false;
+    }
 
-	use LogDate;
+    use LogDate;
 
-	/**
-	 * @var int
-	 *
-	 * @ORM\Column(name="id", type="integer")
-	 * @ORM\Id
-	 * @ORM\GeneratedValue(strategy="AUTO")
-	 */
-	private $id;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="entityClass", type="string", length=255)
-	 */
-	private $entityClass;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="entityClass", type="string", length=255)
+     */
+    private $entityClass;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="entityId", type="string", length=255)
-	 */
-	private $entityId;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="entityId", type="string", length=255)
+     */
+    private $entityId;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="url", type="string", length=255)
-	 */
-	private $url;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="url", type="string", length=255)
+     */
+    private $url;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="hasBeenRewrited", type="boolean")
-	 */
-	private $hasBeenRewrited;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="hasBeenRewrited", type="boolean")
+     */
+    private $hasBeenRewrited;
 
-	/**
-	 * Get id
-	 *
-	 * @return integer
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
-	/**
-	 * Set entityClass
-	 *
-	 * @param string $entityClass
-	 *
-	 * @return Url
-	 */
-	public function setEntityClass($entityClass)
-	{
-		$this->entityClass = $entityClass;
+    /**
+     * Set entityClass
+     *
+     * @param string $entityClass
+     *
+     * @return Url
+     */
+    public function setEntityClass($entityClass)
+    {
+        $this->entityClass = $entityClass;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Get entityClass
-	 *
-	 * @return string
-	 */
-	public function getEntityClass()
-	{
-		return $this->entityClass;
-	}
+    /**
+     * Get entityClass
+     *
+     * @return string
+     */
+    public function getEntityClass()
+    {
+        return $this->entityClass;
+    }
 
-	/**
-	 * Set entityId
-	 *
-	 * @param string $entityId
-	 *
-	 * @return Url
-	 */
-	public function setEntityId($entityId)
-	{
-		$this->entityId = $entityId;
+    /**
+     * Set entityId
+     *
+     * @param string $entityId
+     *
+     * @return Url
+     */
+    public function setEntityId($entityId)
+    {
+        $this->entityId = $entityId;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Get entityId
-	 *
-	 * @return string
-	 */
-	public function getEntityId()
-	{
-		return $this->entityId;
-	}
+    /**
+     * Get entityId
+     *
+     * @return string
+     */
+    public function getEntityId()
+    {
+        return $this->entityId;
+    }
 
-	/**
-	 * Set url
-	 *
-	 * @param string $url
-	 *
-	 * @return Url
-	 */
-	public function setUrl($url)
-	{
-		$this->url = $url;
+    /**
+     * Set url
+     *
+     * @param string $url
+     *
+     * @return Url
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Get url
-	 *
-	 * @return string
-	 */
-	public function getUrl()
-	{
-		return $this->url;
-	}
+    /**
+     * Get url
+     *
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
 
     /**
      * Set hasBeenRewrited

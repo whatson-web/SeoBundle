@@ -11,12 +11,5 @@ use WH\LibBundle\Repository\BaseRepository;
  */
 class RedirectionRepository extends BaseRepository
 {
-
-    /**
-     * @return string
-     */
-    public function getEntityNameQueryBuilder()
-    {
-        return 'redirection';
-    }
+    public $entityName = 'redirection';
 }

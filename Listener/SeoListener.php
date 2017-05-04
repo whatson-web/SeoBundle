@@ -17,166 +17,166 @@ use WH\SeoBundle\Entity\Url;
 class SeoListener implements EventSubscriber
 {
 
-	/**
-	 * @var ContainerInterface
-	 */
-	protected $container;
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
 
-	/**
-	 * @return array
-	 */
-	public function getSubscribedEvents()
-	{
-		return array(
-			Events::postPersist,
-			Events::postUpdate,
-			Events::postRemove,
-		);
-	}
+    /**
+     * @return array
+     */
+    public function getSubscribedEvents()
+    {
+        return [
+            Events::postPersist,
+            Events::postUpdate,
+            Events::postRemove,
+        ];
+    }
 
-	/**
-	 * ApplicationFileItemListener constructor.
-	 *
-	 * @param ContainerInterface $container
-	 */
-	public function __construct(ContainerInterface $container)
-	{
-		$this->container = $container;
-	}
+    /**
+     * ApplicationFileItemListener constructor.
+     *
+     * @param ContainerInterface $container
+     */
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
 
-	/**
-	 * @param LifecycleEventArgs $args
-	 *
-	 * @return bool
-	 */
-	public function postPersist(LifecycleEventArgs $args)
-	{
-		$entity = $args->getObject();
+    /**
+     * @param LifecycleEventArgs $args
+     *
+     * @return bool
+     */
+    public function postPersist(LifecycleEventArgs $args)
+    {
+        $entity = $args->getObject();
 
-		if ($this->entityMustBeManaged($entity)) {
-			$this->saveUrl($entity);
-		}
+        if ($this->entityMustBeManaged($entity)) {
+            $this->saveUrl($entity);
+        }
 
-		if ($entity instanceof Url) {
-			$this->saveRedirectionIfUrlHasBeenRewrited($args);
-		}
+        if ($entity instanceof Url) {
+            $this->saveRedirectionIfUrlHasBeenRewrited($args);
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * @param LifecycleEventArgs $args
-	 *
-	 * @return bool
-	 */
-	public function postUpdate(LifecycleEventArgs $args)
-	{
-		$entity = $args->getObject();
+    /**
+     * @param LifecycleEventArgs $args
+     *
+     * @return bool
+     */
+    public function postUpdate(LifecycleEventArgs $args)
+    {
+        $entity = $args->getObject();
 
-		if ($this->entityMustBeManaged($entity)) {
-			$this->saveUrl($entity);
-		}
+        if ($this->entityMustBeManaged($entity)) {
+            $this->saveUrl($entity);
+        }
 
-		if ($entity instanceof Url) {
-			$this->saveRedirectionIfUrlHasBeenRewrited($args);
-		}
+        if ($entity instanceof Url) {
+            $this->saveRedirectionIfUrlHasBeenRewrited($args);
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * @param LifecycleEventArgs $args
-	 *
-	 * @return bool
-	 */
-	public function postRemove(LifecycleEventArgs $args)
-	{
-		$entity = $args->getObject();
+    /**
+     * @param LifecycleEventArgs $args
+     *
+     * @return bool
+     */
+    public function postRemove(LifecycleEventArgs $args)
+    {
+        $entity = $args->getObject();
 
-		if ($this->entityMustBeManaged($entity)) {
-			$this->createRedirection410($entity);
-		}
+        if ($this->entityMustBeManaged($entity)) {
+            $this->createRedirection410($entity);
+        }
 
-		if ($entity instanceof Url) {
-		}
+        if ($entity instanceof Url) {
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * @param $entity
-	 *
-	 * @return bool
-	 */
-	private function entityMustBeManaged($entity)
-	{
-		$entityClass = get_class($entity);
+    /**
+     * @param $entity
+     *
+     * @return bool
+     */
+    private function entityMustBeManaged($entity)
+    {
+        $entityClass = get_class($entity);
 
-		$managedEntities = $this->container->getParameter('wh_seo_entities');
+        $managedEntities = $this->container->getParameter('wh_seo_entities');
 
-		$entityMustBeManaged = false;
-		if (key_exists($entityClass, $managedEntities)) {
-			$entityMustBeManaged = true;
-		}
+        $entityMustBeManaged = false;
+        if (key_exists($entityClass, $managedEntities)) {
+            $entityMustBeManaged = true;
+        }
 
-		return $entityMustBeManaged;
-	}
+        return $entityMustBeManaged;
+    }
 
-	/**
-	 * @param LifecycleEventArgs $args
-	 *
-	 * @return bool
-	 */
-	private function saveRedirectionIfUrlHasBeenRewrited(LifecycleEventArgs $args)
-	{
-		$entity = $args->getObject();
+    /**
+     * @param LifecycleEventArgs $args
+     *
+     * @return bool
+     */
+    private function saveRedirectionIfUrlHasBeenRewrited(LifecycleEventArgs $args)
+    {
+        $entity = $args->getObject();
 
-		$em = $args->getObjectManager();
-		$uow = $em->getUnitOfWork();
-		$changes = $uow->getEntityChangeSet($entity);
+        $em = $args->getObjectManager();
+        $uow = $em->getUnitOfWork();
+        $changes = $uow->getEntityChangeSet($entity);
 
-		if (isset($changes['url']) && $changes['url'][0] && $changes['url'][0] != $changes['url'][1]) {
-			$redirection = new Redirection();
-			$redirection->setUrlToRedirect($changes['url'][0]);
-			$redirection->setRedirectionUrl($changes['url'][1]);
-			$redirection->setRedirectionType(301);
+        if (isset($changes['url']) && $changes['url'][0] && $changes['url'][0] != $changes['url'][1]) {
+            $redirection = new Redirection();
+            $redirection->setUrlToRedirect($changes['url'][0]);
+            $redirection->setRedirectionUrl($changes['url'][1]);
+            $redirection->setRedirectionType(301);
 
-			$em->persist($redirection);
+            $em->persist($redirection);
 
-			$entity->setHasBeenRewrited(true);
+            $entity->setHasBeenRewrited(true);
 
-			$em->persist($entity);
+            $em->persist($entity);
 
-			$em->flush();
+            $em->flush();
 
-			return true;
-		}
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	/**
-	 * @param $entity
-	 *
-	 * @return bool
-	 */
-	private function saveUrl($entity)
-	{
-		$this->container->get('wh_seo.url_generator')->saveUrl($entity);
+    /**
+     * @param $entity
+     *
+     * @return bool
+     */
+    private function saveUrl($entity)
+    {
+        $this->container->get('wh_seo.url_generator')->saveUrl($entity);
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * @param $entity
-	 *
-	 * @return bool
-	 */
-	private function createRedirection410($entity)
-	{
-		$this->container->get('wh_seo.url_generator')->createRedirection410($entity);
+    /**
+     * @param $entity
+     *
+     * @return bool
+     */
+    private function createRedirection410($entity)
+    {
+        $this->container->get('wh_seo.url_generator')->createRedirection410($entity);
 
-		return true;
-	}
+        return true;
+    }
 
 }
