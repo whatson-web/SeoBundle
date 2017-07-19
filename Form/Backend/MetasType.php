@@ -49,11 +49,10 @@ class MetasType extends AbstractType
                 'robots',
                 ChoiceType::class,
                 [
-                    'label'       => 'Meta robots :',
-                    'empty_value' => false,
-                    'empty_data'  => 'index,follow',
-                    'required'    => false,
-                    'choices'     => [
+                    'label'      => 'Meta robots :',
+                    'empty_data' => 'index,follow',
+                    'required'   => false,
+                    'choices'    => [
                         'index,follow'     => 'index,follow',
                         'index,nofollow'   => 'index,nofollow',
                         'noindex,follow'   => 'noindex,follow',
