@@ -1,0 +1,16 @@
+<div id="select-language" class="dropdown">
+
+    <button type="button" data-toggle="dropdown">
+        {{ defaultLocale }}
+        <span class="caret"></span>
+    </button>
+
+    <ul class="dropdown-menu">
+        {% for localeUrl, url in urls %}
+            <li>
+                <a href="{{ url }}" {% if localeUrl == defaultLocale %}class="active"{% endif %}>{{ localeUrl }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+</div>

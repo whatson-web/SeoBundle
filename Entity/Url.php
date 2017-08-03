@@ -3,6 +3,7 @@
 namespace WH\SeoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use WH\LibBundle\Entity\LogDate;
 
 /**
@@ -13,7 +14,6 @@ use WH\LibBundle\Entity\LogDate;
  */
 class Url
 {
-
     /**
      * Url constructor.
      */
@@ -50,6 +50,7 @@ class Url
     /**
      * @var string
      *
+     * @Gedmo\Translatable
      * @ORM\Column(name="url", type="string", length=255)
      */
     private $url;
@@ -60,6 +61,11 @@ class Url
      * @ORM\Column(name="hasBeenRewrited", type="boolean")
      */
     private $hasBeenRewrited;
+
+    /**
+     * @Gedmo\Locale
+     */
+    private $locale;
 
     /**
      * Get id
@@ -165,5 +171,13 @@ class Url
     public function getHasBeenRewrited()
     {
         return $this->hasBeenRewrited;
+    }
+
+    /**
+     * @param $locale
+     */
+    public function setTranslatableLocale($locale)
+    {
+        $this->locale = $locale;
     }
 }

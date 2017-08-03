@@ -3,6 +3,7 @@
 namespace WH\SeoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Metas
@@ -25,6 +26,7 @@ class Metas
     /**
      * @var string
      *
+     * @Gedmo\Translatable
      * @ORM\Column(name="title", type="string", length=255, nullable=true)
      */
     private $title;
@@ -32,6 +34,7 @@ class Metas
     /**
      * @var string
      *
+     * @Gedmo\Translatable
      * @ORM\Column(name="description", type="string", length=255, nullable=true)
      */
     private $description;

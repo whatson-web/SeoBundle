@@ -121,9 +121,13 @@ class UrlGenerator
 
         // Nouvelle url détectée ?
         if (!$currentUrl || $currentUrl->getUrl() != $newUrl) {
-            $url = new Url();
-            $url->setEntityClass($entityClass);
-            $url->setEntityId($entityId);
+            if ($currentUrl) {
+                $url = $currentUrl;
+            } else {
+                $url = new Url();
+                $url->setEntityClass($entityClass);
+                $url->setEntityId($entityId);
+            }
             $url->setUrl($newUrl);
 
             $this->em->persist($url);
@@ -133,7 +137,6 @@ class UrlGenerator
 
             // Y avait-il déjà une url ?
             if ($currentUrl) {
-
                 // Si l'url a été réécrite manuellement, on ne doit plus l'écraser
                 if ($currentUrl->getHasBeenRewrited()) {
                     return false;
@@ -145,8 +148,6 @@ class UrlGenerator
                 $redirection->setRedirectionType(301);
 
                 $this->em->persist($redirection);
-
-                $this->em->remove($currentUrl);
             }
 
             // Suppression des redirections déjà existantes pour l'url qui va être créée

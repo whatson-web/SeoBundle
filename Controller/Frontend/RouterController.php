@@ -15,7 +15,6 @@ use WH\BackendBundle\Controller\Backend\BaseController;
  */
 class RouterController extends BaseController
 {
-
     /**
      * @Route("{url}", name="ft_wh_seo_router_dispatch", requirements={"url":".*"})
      *
@@ -67,12 +66,31 @@ class RouterController extends BaseController
             );
         }
 
+        $conditions = [
+            'url.url' => $url,
+        ];
+
+        $translationRepository = $em->getRepository('Gedmo\\Translatable\\Entity\\Translation');
+        $translationUrl = $translationRepository->createQueryBuilder('translation')
+            ->where('translation.content = :translationContent')
+            ->andWhere('translation.objectClass = :translationObjectClass')
+            ->andWhere('translation.locale = :translationLocale')
+            ->setParameter('translationContent', $url)
+            ->setParameter('translationObjectClass', 'WH\SeoBundle\Entity\Url')
+            ->setParameter('translationLocale', $request->getLocale())
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        if ($translationUrl) {
+            $conditions = [
+                'url.id' => $translationUrl->getForeignKey(),
+            ];
+        }
+
         $url = $em->getRepository('WHSeoBundle:Url')->get(
             'one',
             [
-                'conditions' => [
-                    'url.url' => $url,
-                ],
+                'conditions' => $conditions,
             ]
         );
         if ($url) {
@@ -129,6 +147,97 @@ class RouterController extends BaseController
             'WHSeoBundle:FrontEnd/Router:metas.html.twig',
             [
                 'metas' => $metas,
+            ]
+        );
+    }
+
+    /**
+     * @param         $urlId
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function hreflangsAction($urlId, Request $request)
+    {
+        $em = $this->get('doctrine')->getManager();
+
+        $url = $em->getRepository('WHSeoBundle:Url')->get(
+            'one',
+            [
+                'conditions' => [
+                    'url.id' => $urlId,
+                ],
+            ]
+        );
+
+        $locales = $this->getParameter('locales');
+
+        $hreflangs = [];
+        foreach ($locales as $locale) {
+            if ($locale == $request->getLocale()) {
+                continue;
+            }
+
+            $url->setTranslatableLocale($locale);
+            $em->refresh($url);
+
+            $hreflangs[$locale] = $this->generateUrl(
+                'ft_wh_seo_router_dispatch',
+                [
+                    'url'     => $url->getUrl(),
+                    '_locale' => $locale,
+                ]
+            );
+        }
+
+        return $this->render(
+            'WHSeoBundle:FrontEnd/Router:hreflangs.html.twig',
+            [
+                'hreflangs' => $hreflangs,
+            ]
+        );
+    }
+
+    /**
+     * @param         $urlId
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function languageSwitcherAction($urlId, Request $request)
+    {
+        $em = $this->get('doctrine')->getManager();
+
+        $url = $em->getRepository('WHSeoBundle:Url')->get(
+            'one',
+            [
+                'conditions' => [
+                    'url.id' => $urlId,
+                ],
+            ]
+        );
+
+        $locales = $this->getParameter('locales');
+
+        $urls = [];
+        foreach ($locales as $locale) {
+            $url->setTranslatableLocale($locale);
+            $em->refresh($url);
+
+            $urls[$locale] = $this->generateUrl(
+                'ft_wh_seo_router_dispatch',
+                [
+                    'url'     => $url->getUrl(),
+                    '_locale' => $locale,
+                ]
+            );
+        }
+
+        return $this->render(
+            '@WHSeo/FrontEnd/Router/language-switcher.html.twig',
+            [
+                'defaultLocale' => $request->getLocale(),
+                'urls'          => $urls,
             ]
         );
     }
