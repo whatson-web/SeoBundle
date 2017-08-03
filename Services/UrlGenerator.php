@@ -3,7 +3,6 @@
 namespace WH\SeoBundle\Services;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use WH\SeoBundle\Entity\OldUrl;
 use WH\SeoBundle\Entity\Redirection;
 use WH\SeoBundle\Entity\Url;
 
@@ -14,7 +13,6 @@ use WH\SeoBundle\Entity\Url;
  */
 class UrlGenerator
 {
-
     protected $container;
     protected $em;
 
@@ -32,12 +30,11 @@ class UrlGenerator
     /**
      * @param $entity
      *
-     * @return bool
+     * @return string
      */
-    public function saveUrl($entity)
+    public function getUrl($entity)
     {
         $entityClass = get_class($entity);
-        $entityId = $entity->getId();
 
         $managedEntities = $this->container->getParameter('wh_seo_entities');
 
@@ -48,21 +45,14 @@ class UrlGenerator
             $urlFields = $managedEntity['urlFields'];
         }
 
-        if (empty($urlFields)) {
-            return false;
-        }
-
         $urlRepository = $this->em->getRepository('WHSeoBundle:Url');
         $uselfulFunctions = $this->container->get('lib.useful_functions');
 
         $newUrl = '';
 
         foreach ($urlFields as $urlField) {
-
             switch ($urlField['type']) {
-
                 case 'field':
-
                     $value = $uselfulFunctions->getRecursiveValueOfEntity($entity, $urlField['field']);
 
                     // Si on a trouvé la valeur du champ, on l'ajoute au l'url
@@ -83,7 +73,6 @@ class UrlGenerator
                     break;
 
                 case 'tree':
-
                     $field = $urlField['field'];
 
                     if ($entity->{'get' . ucfirst($field)}()) {
@@ -116,6 +105,35 @@ class UrlGenerator
         if ($entityClass == 'CmsBundle\Entity\Page' && $entity->getPageTemplateSlug() == 'home') {
             $newUrl = '';
         }
+
+        return $newUrl;
+    }
+
+    /**
+     * @param      $entity
+     * @param null $locale
+     *
+     * @return bool
+     */
+    public function saveUrl($entity, $locale = null)
+    {
+        $entityClass = get_class($entity);
+        $entityId = $entity->getId();
+
+        $managedEntities = $this->container->getParameter('wh_seo_entities');
+
+        $urlFields = [];
+
+        if (key_exists($entityClass, $managedEntities)) {
+            $managedEntity = $managedEntities[$entityClass];
+            $urlFields = $managedEntity['urlFields'];
+        }
+
+        if (empty($urlFields)) {
+            return false;
+        }
+
+        $newUrl = $this->getUrl($entity);
 
         $currentUrl = $entity->getUrl();
 
