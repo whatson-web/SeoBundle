@@ -154,7 +154,7 @@ class UrlGenerator
             $this->em->persist($entity);
 
             // Y avait-il déjà une url ?
-            if ($currentUrl) {
+            if ($currentUrl && $currentUrl->getUrl() != $newUrl) {
                 // Si l'url a été réécrite manuellement, on ne doit plus l'écraser
                 if ($currentUrl->getHasBeenRewrited()) {
                     return false;
