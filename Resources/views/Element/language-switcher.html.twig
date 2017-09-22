@@ -1,0 +1,19 @@
+<div id="select-language" class="dropdown">
+
+    <button type="button" data-toggle="dropdown">
+        {{ app.request.locale }}
+        <span class="caret"></span>
+    </button>
+
+    <ul class="dropdown-menu">
+        {% for locale in locales %}
+            {% set localeRouteParams = routeParams | merge({'_locale': locale}) %}
+            {% set localeUrl = path(route, localeRouteParams) %}
+            <li>
+                <a href="{{ localeUrl }}"
+                   {% if localeUrl == app.request.locale %}class="active"{% endif %}>{{ locale }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+</div>
