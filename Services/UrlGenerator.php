@@ -3,6 +3,7 @@
 namespace WH\SeoBundle\Services;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use WH\LibBundle\Twig\SlugExtension;
 use WH\SeoBundle\Entity\Redirection;
 use WH\SeoBundle\Entity\Url;
 
@@ -54,6 +55,27 @@ class UrlGenerator
             switch ($urlField['type']) {
                 case 'field':
                     $value = $uselfulFunctions->getRecursiveValueOfEntity($entity, $urlField['field']);
+
+                    // Si on a trouvé la valeur du champ, on l'ajoute au l'url
+                    if ($value) {
+                        // Et éventuellement son préfixe
+                        if (isset($urlField['prefix'])) {
+                            $newUrl .= $urlField['prefix'];
+                        }
+
+                        $newUrl .= $value;
+
+                        // Et/Ou son suffixe
+                        if (isset($urlField['suffix'])) {
+                            $newUrl .= $urlField['suffix'];
+                        }
+                    }
+
+                    break;
+
+                case 'slugField':
+                    $value = $uselfulFunctions->getRecursiveValueOfEntity($entity, $urlField['field']);
+                    $value = strtolower(str_replace(' ', '-', $value));
 
                     // Si on a trouvé la valeur du champ, on l'ajoute au l'url
                     if ($value) {
