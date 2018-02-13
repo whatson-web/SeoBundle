@@ -16,7 +16,6 @@ use WH\SeoBundle\Entity\Url;
  */
 class SeoListener implements EventSubscriber
 {
-
     /**
      * @var ContainerInterface
      */
@@ -51,10 +50,12 @@ class SeoListener implements EventSubscriber
      */
     public function postPersist(LifecycleEventArgs $args)
     {
+        $em = $args->getObjectManager();
         $entity = $args->getObject();
 
         if ($this->entityMustBeManaged($entity)) {
             $this->saveUrl($entity);
+            $em->flush();
         }
 
         if ($entity instanceof Url) {
@@ -71,10 +72,12 @@ class SeoListener implements EventSubscriber
      */
     public function postUpdate(LifecycleEventArgs $args)
     {
+        $em = $args->getObjectManager();
         $entity = $args->getObject();
 
         if ($this->entityMustBeManaged($entity)) {
             $this->saveUrl($entity);
+            $em->flush();
         }
 
         if ($entity instanceof Url) {

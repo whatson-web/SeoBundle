@@ -68,8 +68,8 @@ class HardResetCommand extends ContainerAwareCommand
 
         foreach ($redirections as $redirection) {
             $this->em->remove($redirection);
-            $this->em->flush();
         }
+        $this->em->flush();
 
         $this->dumpMessage('Fin des suppressions des redirections');
     }
@@ -90,10 +90,14 @@ class HardResetCommand extends ContainerAwareCommand
             ]
         );
 
-        foreach ($urls as $url) {
+        foreach ($urls as $key => $url) {
             $this->em->remove($url);
-            $this->em->flush();
+
+            if ($key % 250 == 249) {
+                $this->em->flush();
+            }
         }
+        $this->em->flush();
 
         $this->dumpMessage('Fin des suppressions des urls pour '.$entityClass);
     }
@@ -131,12 +135,7 @@ class HardResetCommand extends ContainerAwareCommand
 
                 $this->em->persist($entity);
             }
-
-            if ($key % 250 == 249) {
-                $this->em->flush();
-            }
         }
-        $this->em->flush();
 
         $this->dumpMessage('Fin des créations des urls pour '.$entityClass);
     }
