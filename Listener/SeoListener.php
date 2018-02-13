@@ -165,7 +165,7 @@ class SeoListener implements EventSubscriber
         if (method_exists($entity, 'getTranslatableLocale')) {
             $this->container->get('wh_seo.url_generator')->saveUrl($entity, $entity->getTranslatableLocale());
         } else {
-            $this->container->get('wh_seo.url_generator')->saveUrl($entity, $entity->locale);
+            $this->container->get('wh_seo.url_generator')->saveUrl($entity);
         }
 
         return true;
