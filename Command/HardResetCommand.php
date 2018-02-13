@@ -39,6 +39,8 @@ class HardResetCommand extends ContainerAwareCommand
         $this->container = $this->getContainer();
         $this->em = $this->container->get('doctrine')->getManager();
 
+        $this->em->getConnection()->getConfiguration()->setSQLLogger(null);
+
         if ($input->getArgument('entityClass') !== null) {
             $entityClass = $input->getArgument('entityClass');
 
@@ -46,7 +48,7 @@ class HardResetCommand extends ContainerAwareCommand
             $this->createUrls($entityClass);
         } else {
             $this->resetRedirections();
-            
+
             $seoEntities = $this->container->getParameter('wh_seo_entities');
 
             foreach ($seoEntities as $seoEntityClass => $seoEntityConfig) {
@@ -60,12 +62,16 @@ class HardResetCommand extends ContainerAwareCommand
 
     private function resetRedirections()
     {
+        $this->dumpMessage('Début des suppressions des redirections');
+
         $redirections = $this->em->getRepository('WHSeoBundle:Redirection')->get('all');
 
         foreach ($redirections as $redirection) {
             $this->em->remove($redirection);
             $this->em->flush();
         }
+
+        $this->dumpMessage('Fin des suppressions des redirections');
     }
 
     /**
@@ -73,6 +79,8 @@ class HardResetCommand extends ContainerAwareCommand
      */
     private function resetUrls($entityClass)
     {
+        $this->dumpMessage('Début des suppressions des urls pour '.$entityClass);
+
         $urls = $this->em->getRepository('WHSeoBundle:Url')->get(
             'all',
             [
@@ -86,6 +94,8 @@ class HardResetCommand extends ContainerAwareCommand
             $this->em->remove($url);
             $this->em->flush();
         }
+
+        $this->dumpMessage('Fin des suppressions des urls pour '.$entityClass);
     }
 
     /**
@@ -93,10 +103,12 @@ class HardResetCommand extends ContainerAwareCommand
      */
     private function createUrls($entityClass)
     {
+        $this->dumpMessage('Début des créations des urls pour '.$entityClass);
+
         // Création des urls
         $entities = $this->em->getRepository($entityClass)->get('all');
 
-        foreach ($entities as $entity) {
+        foreach ($entities as $key => $entity) {
             foreach ($this->container->getParameter('locales') as $locale) {
                 $entity->setTranslatableLocale($locale);
                 $this->em->refresh($entity);
@@ -118,8 +130,30 @@ class HardResetCommand extends ContainerAwareCommand
                 $urlEntity->setUrl($url);
 
                 $this->em->persist($entity);
+            }
+
+            if ($key % 250 == 249) {
                 $this->em->flush();
             }
         }
+        $this->em->flush();
+
+        $this->dumpMessage('Fin des créations des urls pour '.$entityClass);
+    }
+
+    /**
+     * @param $message
+     */
+    private function dumpMessage($message)
+    {
+        dump($message);
+
+        $this->dumpDate();
+    }
+
+    private function dumpDate()
+    {
+        $now = new \DateTime();
+        dump($now->format('d/m/Y H:i:s'));
     }
 }
