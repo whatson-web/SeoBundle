@@ -55,7 +55,6 @@ class SeoListener implements EventSubscriber
 
         if ($this->entityMustBeManaged($entity)) {
             $this->saveUrl($entity);
-            $em->flush();
         }
 
         if ($entity instanceof Url) {
@@ -77,7 +76,6 @@ class SeoListener implements EventSubscriber
 
         if ($this->entityMustBeManaged($entity)) {
             $this->saveUrl($entity);
-            $em->flush();
         }
 
         if ($entity instanceof Url) {

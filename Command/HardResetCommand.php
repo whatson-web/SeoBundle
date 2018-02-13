@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use WH\SeoBundle\Entity\Url;
+use WH\SeoBundle\Listener\SeoListener;
 
 /**
  * Class ProductImporterCommand
@@ -40,6 +41,20 @@ class HardResetCommand extends ContainerAwareCommand
         $this->em = $this->container->get('doctrine')->getManager();
 
         $this->em->getConnection()->getConfiguration()->setSQLLogger(null);
+
+        $eventManager = $this->em->getEventManager();
+        foreach ($eventManager->getListeners() as $event => $listeners) {
+            foreach ($listeners as $listener) {
+                if ($listener instanceof SeoListener) {
+                    $eventManager->removeEventListener(
+                        [
+                            $event,
+                        ],
+                        $listener
+                    );
+                }
+            }
+        }
 
         if ($input->getArgument('entityClass') !== null) {
             $entityClass = $input->getArgument('entityClass');
@@ -135,7 +150,12 @@ class HardResetCommand extends ContainerAwareCommand
 
                 $this->em->persist($entity);
             }
+
+            if ($key % 250 == 249) {
+                $this->em->flush();
+            }
         }
+        $this->em->flush();
 
         $this->dumpMessage('Fin des créations des urls pour '.$entityClass);
     }

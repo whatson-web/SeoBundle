@@ -208,6 +208,8 @@ class UrlGenerator
                 $this->em->remove($existingRedirection);
             }
 
+            $this->em->flush();
+
             // Création en cascade
             if (method_exists($entity, 'getChildren') && $entity->getChildren()) {
                 foreach ($entity->getChildren() as $child) {
