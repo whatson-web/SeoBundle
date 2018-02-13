@@ -190,6 +190,9 @@ class RouterController extends BaseController
             );
         }
 
+        $url->setTranslatableLocale(null);
+        $em->refresh($url);
+
         return $this->render(
             'WHSeoBundle:FrontEnd/Router:hreflangs.html.twig',
             [

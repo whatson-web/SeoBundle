@@ -97,8 +97,8 @@ class UrlGenerator
                 case 'tree':
                     $field = $urlField['field'];
 
-                    if ($entity->{'get' . ucfirst($field)}()) {
-                        $fieldValue = $entity->{'get' . ucfirst($field)}();
+                    if ($entity->{'get'.ucfirst($field)}()) {
+                        $fieldValue = $entity->{'get'.ucfirst($field)}();
 
                         $fieldUrl = $urlRepository->get(
                             'one',
@@ -158,6 +158,11 @@ class UrlGenerator
         $newUrl = $this->getUrl($entity);
 
         $currentUrl = $entity->getUrl();
+
+        if ($locale && $currentUrl instanceof Url) {
+            $currentUrl->setTranslatableLocale($locale);
+            $this->em->refresh($currentUrl);
+        }
 
         // Nouvelle url détectée ?
         if (!$currentUrl || $currentUrl->getUrl() != $newUrl) {
