@@ -51,7 +51,8 @@ class Url
      * @var string
      *
      * @Gedmo\Translatable
-     * @ORM\Column(name="url", type="string", length=255)
+     * @Gedmo\Slug(fields={"url"})
+     * @ORM\Column(name="url", type="string", length=255, unique=true)
      */
     private $url;
 
