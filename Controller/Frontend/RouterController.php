@@ -25,16 +25,8 @@ class RouterController extends BaseController
      */
     public function dispatchAction($url = '/', Request $request)
     {
-        if ($url == '/') {
-            return $this->redirect(
-                $this->generateUrl(
-                    'ft_wh_seo_router_dispatch',
-                    [
-                        'url' => '',
-                    ]
-                ),
-                301
-            );
+        if ($url == '') {
+            $url = '/';
         }
 
         $em = $this->get('doctrine')->getManager();
@@ -117,7 +109,7 @@ class RouterController extends BaseController
 
                 $entityName = preg_replace('#.*\\\Entity\\\(.*)#', '$1', $entityClass);
 
-                $entityAction = $entityBundle . ':Frontend/' . $entityName . ':view';
+                $entityAction = $entityBundle.':Frontend/'.$entityName.':view';
 
                 $response = $this->forward(
                     $entityAction,
