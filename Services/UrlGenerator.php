@@ -266,11 +266,28 @@ class UrlGenerator
         $usefulFunctions = $this->container->get('lib.useful_functions');
 
         if (!empty($defaultMetasFields)) {
-            foreach ($defaultMetasFields as $metaField => $entityField) {
-                $metaFieldValue = $usefulFunctions->getRecursiveValueOfEntity($entity, $entityField);
-                if ($metaFieldValue) {
-                    $metas[$metaField] = $metaFieldValue;
+            foreach ($defaultMetasFields as $metaField => $configFields) {
+                $value = '';
+
+                foreach ($configFields as $configField) {
+                    if (!empty($configField['prefix'])) {
+                        $value .= $configField['prefix'];
+                    }
+
+                    if (!empty($configField['field'])) {
+                        $metaFieldValue = $usefulFunctions->getRecursiveValueOfEntity($entity, $configField['field']);
+
+                        if ($metaFieldValue) {
+                            $value .= $metaFieldValue;
+                        }
+                    }
+
+                    if (!empty($configField['suffix'])) {
+                        $value .= $configField['suffix'];
+                    }
                 }
+
+                $metas[$metaField] = $value;
             }
         }
 
