@@ -26,6 +26,10 @@ class HardResetCommand extends ContainerAwareCommand
             ->addArgument(
                 'entityClass',
                 InputArgument::OPTIONAL
+            )
+            ->addArgument(
+                'entityIsTree',
+                InputArgument::OPTIONAL
             );
     }
 
@@ -60,7 +64,7 @@ class HardResetCommand extends ContainerAwareCommand
             $entityClass = $input->getArgument('entityClass');
 
             $this->resetUrls($entityClass);
-            $this->createUrls($entityClass);
+            $this->createUrls($entityClass, $input->getArgument('entityIsTree'));
         } else {
             $this->resetRedirections();
 
@@ -68,7 +72,7 @@ class HardResetCommand extends ContainerAwareCommand
 
             foreach ($seoEntities as $seoEntityClass => $seoEntityConfig) {
                 $this->resetUrls($seoEntityClass);
-                $this->createUrls($seoEntityClass);
+                $this->createUrls($seoEntityClass, $seoEntityConfig['tree']);
             }
         }
 
@@ -120,7 +124,7 @@ class HardResetCommand extends ContainerAwareCommand
     /**
      * @param $entityClass
      */
-    private function createUrls($entityClass)
+    private function createUrls($entityClass, $treeEntity)
     {
         $this->dumpMessage('Début des créations des urls pour '.$entityClass);
 
@@ -149,6 +153,10 @@ class HardResetCommand extends ContainerAwareCommand
                 $urlEntity->setUrl($url);
 
                 $this->em->persist($entity);
+
+                if ($treeEntity) {
+                    $this->em->flush();
+                }
             }
 
             if ($key % 250 == 249) {

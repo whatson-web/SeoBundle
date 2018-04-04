@@ -25,6 +25,7 @@ class Configuration implements ConfigurationInterface
                     ->arrayNode('entities')
                         ->prototype('array')
                             ->children()
+                                ->booleanNode('tree')->defaultFalse()->end()
                                 ->arrayNode('urlFields')
                                     ->prototype('array')
                                         ->children()
