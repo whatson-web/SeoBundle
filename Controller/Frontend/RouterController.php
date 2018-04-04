@@ -25,10 +25,6 @@ class RouterController extends BaseController
      */
     public function dispatchAction($url = '/', Request $request)
     {
-        if ($url == '') {
-            $url = '/';
-        }
-
         $em = $this->get('doctrine')->getManager();
 
         $redirection = $em->getRepository('WHSeoBundle:Redirection')->get(
