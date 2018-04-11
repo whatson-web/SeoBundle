@@ -45,6 +45,13 @@ class RouterController extends BaseController
                 return $response;
             }
 
+            if (!empty($redirection->getExternalRedirectionUrl())) {
+                return $this->redirect(
+                    $redirection->getExternalRedirectionUrl(),
+                    $redirection->getRedirectionType()
+                );
+            }
+
             return $this->redirectToRoute(
                 'ft_wh_seo_router_dispatch',
                 [

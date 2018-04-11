@@ -42,6 +42,13 @@ class Redirection
     /**
      * @var string
      *
+     * @ORM\Column(name="externalRedirectionUrl", type="string", length=255, nullable=true)
+     */
+    private $externalRedirectionUrl;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="redirectionType", type="integer")
      */
     private $redirectionType;
@@ -102,6 +109,30 @@ class Redirection
     public function getRedirectionUrl()
     {
         return $this->redirectionUrl;
+    }
+
+    /**
+     * Set externalExternalRedirectionUrl
+     *
+     * @param string $externalExternalRedirectionUrl
+     *
+     * @return Redirection
+     */
+    public function setExternalRedirectionUrl($externalRedirectionUrl)
+    {
+        $this->externalRedirectionUrl = $externalRedirectionUrl;
+
+        return $this;
+    }
+
+    /**
+     * Get externalExternalRedirectionUrl
+     *
+     * @return string
+     */
+    public function getExternalRedirectionUrl()
+    {
+        return $this->externalRedirectionUrl;
     }
 
     /**

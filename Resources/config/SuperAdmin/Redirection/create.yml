@@ -3,6 +3,7 @@ title: 'Créer une redirection'
 formFields:
     - urlToRedirect
     - redirectionUrl
+    - externalRedirectionUrl
     - redirectionType
 
 footerFormFields:

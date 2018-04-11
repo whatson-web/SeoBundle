@@ -5,6 +5,7 @@ title: 'Editer une redirection'
 formFields:
     - urlToRedirect
     - redirectionUrl
+    - externalRedirectionUrl
     - redirectionType
 
 footerFormFields:

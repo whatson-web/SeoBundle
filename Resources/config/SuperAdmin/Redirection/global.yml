@@ -22,8 +22,12 @@ formFields:
         field: 'urlToRedirect'
         type: 'text'
     redirectionUrl:
-        label: 'Url de redirection'
+        label: 'Url de redirection interne'
         field: 'redirectionUrl'
+        type: 'text'
+    externalRedirectionUrl:
+        label: 'Url de redirection externe'
+        field: 'externalRedirectionUrl'
         type: 'text'
     redirectionType:
         label: 'Type'

@@ -61,4 +61,5 @@ tablePanelProperties:
             type: 'link'
         redirectionUrl:
             type: 'link'
+        externalRedirectionUrl:
         redirectionType:
