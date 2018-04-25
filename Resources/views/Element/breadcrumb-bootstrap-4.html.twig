@@ -1,21 +1,21 @@
-{# BOOTSTRAP BREADCRUMB V3 #}
-
-
 {% set breadcrumbMicroData = [] %}
 
-<ol class="breadcrumb">
-    {% for crumb in breadcrumb %}
-        {% if loop.last %}
-            <li>
-                <span>{{ crumb.label }}</span>
-            </li>
-        {% else %}
-            <li>
-                <a href="{{ crumb.url }}">{{ crumb.label }}</a>
-            </li>
-        {% endif %}
-    {% endfor %}
-</ol>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        {% for crumb in breadcrumb %}
+            {% if loop.last %}
+                <li class="breadcrumb-item active">
+                    <span>{{ crumb.label }}</span>
+                </li>
+            {% else %}
+                <li class="breadcrumb-item">
+                    <a href="{{ crumb.url }}">{{ crumb.label }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ol>
+</nav>
+
 
 <script type="application/ld+json">
 {
