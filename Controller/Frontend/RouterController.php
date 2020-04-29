@@ -62,7 +62,7 @@ class RouterController extends BaseController
         }
 
         $conditions = [
-            'url.url' => $url,
+            'url' => $url,
         ];
 
         $translationRepository = $em->getRepository('Gedmo\\Translatable\\Entity\\Translation');
@@ -78,16 +78,14 @@ class RouterController extends BaseController
 
         if ($translationUrl) {
             $conditions = [
-                'url.id' => $translationUrl->getForeignKey(),
+                'id' => $translationUrl->getForeignKey(),
             ];
         }
 
-        $url = $em->getRepository('WHSeoBundle:Url')->get(
-            'one',
-            [
-                'conditions' => $conditions,
-            ]
+        $url = $em->getRepository('WHSeoBundle:Url')->findOneBy(
+            $conditions
         );
+
         if ($url) {
             $entityClass = $url->getEntityClass();
 
