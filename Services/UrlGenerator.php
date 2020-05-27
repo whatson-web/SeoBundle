@@ -223,13 +223,15 @@ class UrlGenerator
      */
     public function createRedirection410($entity)
     {
-        $redirection = new Redirection();
-        $redirection->setUrlToRedirect($entity->getUrl()->getUrl());
-        $redirection->setRedirectionType(410);
+        if ($entity->getUrl()->getUrl()) {
+            $redirection = new Redirection();
+            $redirection->setUrlToRedirect($entity->getUrl()->getUrl());
+            $redirection->setRedirectionType(410);
 
-        $this->em->persist($redirection);
-        $this->em->flush();
-
+            $this->em->persist($redirection);
+            $this->em->flush();
+        }
+        
         return true;
     }
 
